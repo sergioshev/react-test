@@ -7,6 +7,8 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import Profession from './Profession';
+import PhoneNumber from './PhoneNumber';
 
 class UserForm extends Component {
   render() {
@@ -30,7 +32,7 @@ class UserForm extends Component {
           <Col>
             <FormGroup>
               <Label>ПРОФЕССИЯ</Label>
-              <Input name="profession" placeholder="Дровосек"/>
+              <Profession {...this.props}/>
             </FormGroup>
           </Col>
         </Row>
@@ -38,7 +40,7 @@ class UserForm extends Component {
           <Col>
             <FormGroup>
               <Label>ТЕЛЕФОН</Label>
-              <Input name="phone" placeholder="Дровосек"/>
+              <PhoneNumber/>
             </FormGroup>
           </Col>
         </Row>
@@ -47,4 +49,7 @@ class UserForm extends Component {
   }
 };
 
+/*
+<Input name="profession" placeholder="Дровосек"/>
+*/
 export default UserForm;

@@ -17,13 +17,93 @@ const proffesions = [
   {
     key: 4,
     name: "Пекарь"
+  },
+  {
+    key: 5,
+    name: "Дегустатор"
+  },
+  {
+    key: 6,
+    name: "Дробильщик"
   }
 ];
 
 
 class Profession extends Component {
-  construnctor(props) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      suggestions: [],
+      value: ''
+    }
 
+    this.onChange = this.onChange.bind(this);
+    this.renderSuggestion = this.renderSuggestion.bind(this);
+    this.clearSuggestions = this.clearSuggestions.bind(this);
+    this.refreshSuggestions = this.refreshSuggestions.bind(this);
   }
 
+  refreshSuggestions({ value }) {
+    this.setState({
+      suggestions: this.getSuggestions(value)
+    });
+  }; 
+
+  getSuggestions(value) {
+    const valueAdjusted = value.trim().toLowerCase();
+    const len = valueAdjusted.length;
+
+    return len === 0 ? [] : proffesions.filter(prof =>
+      prof.name.toLowerCase().slice(0, len) === valueAdjusted
+    );
+  };
+
+  onChange(e, { newValue }) {
+    this.setState({
+      value: newValue
+    });
+  }
+
+  renderSuggestion(suggestion) { 
+    return (
+      <div>
+        {suggestion.name}
+      </div>
+    );
+  };
+
+  clearSuggestions() {
+    this.setState({
+      suggestions: []
+    });
+  };
+
+  getSuggestionValue(suggestion) {
+    return suggestion.name;
+  }
+
+  render() {
+    const { value, suggestions } = this.state;
+
+    const inputProps = {
+      placeholder: 'Дровосек',
+      value,
+      onChange: this.onChange
+    };
+
+    return (
+      <div>
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.refreshSuggestions}
+          onSuggestionsClearRequested={this.clearSuggestions}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={inputProps}
+        />
+      </div>
+    );
+  }
 }
+
+export default Profession;
