@@ -1,23 +1,59 @@
 import React, { Component } from 'react';
 import {
-  Button,
   ButtonDropdown,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
   Input
 } from 'reactstrap';
+
+import rusFlag from './flags/rus.png';
+import belFlag from './flags/bel.png';
+import argFlag from './flags/arg.png';
+
+const countries = [
+  {
+    flag: rusFlag,
+    name: "Russia",
+    prefix: "+7",
+    key: 1
+  },
+  {
+    flag: argFlag,
+    name: "Argentina",
+    prefix: "+54",
+    key: 2
+  },
+  {
+    flag: belFlag,
+    name: "Belarus",
+    prefix: "+375",
+    key: 3
+  }
+];
 
 class PhoneNumber extends Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      dropdownOpen: false
+      dropdownOpen: false,
+      selected: countries[0],
+      value: countries[0].prefix
     };
+
+    this.toggle = this.toggle.bind(this);
+    this.renderOptions = this.renderOptions.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleClick(country) {
+    this.setState({
+      selected: country,
+      value: country.prefix
+    })
   }
 
   toggle() {
@@ -26,9 +62,27 @@ class PhoneNumber extends Component {
     })
   }
 
+  renderOptions() {
+    return countries.map(c => (
+      <DropdownItem 
+        key={c.key}
+        onClick={() => this.handleClick(c)}>
+        <img alt="flag" src={c.flag}/>
+        {c.name}
+      </DropdownItem>
+    ));
+  }
+
+  handleChange(e) {
+    this.setState({value: e.target.value});
+    this.props.onChange(e);
+  }
+ 
   render() {
     const {
-      dropdownOpen
+      dropdownOpen,
+      selected,
+      value
     } = this.state;
 
     return (
@@ -36,15 +90,18 @@ class PhoneNumber extends Component {
         <InputGroupAddon addonType="prepend" className="flag-area">
           <ButtonDropdown isOpen={dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret>
+              <img alt="flag" src={selected.flag}/>
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem>Rusia</DropdownItem>
-              <DropdownItem>Argentina</DropdownItem>
-              <DropdownItem>Serbia</DropdownItem>
+              {this.renderOptions()}
             </DropdownMenu>
           </ButtonDropdown>
         </InputGroupAddon>
-        <Input placeholder="phone" />
+        <Input
+          name={this.props.name || "phone"}
+          onChange={this.handleChange}
+          value={value}
+        />
       </InputGroup>
     );
   }

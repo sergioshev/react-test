@@ -32,6 +32,24 @@
   color: grey;
 }
 
+.flag-area .dropdown-toggle {
+  background: #f9f9f9;
+  color: gray;
+}
+
+.flag-area .dropdown-toggle:hover {
+  background: #f9f9f9;
+  color: gray;
+}
+
+.flag-area img {
+  padding-right: 5px;
+}
+
+.flag-area button {
+  border-bottom-right-radius: unset;
+  border-top-right-radius: unset;
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
@@ -88,7 +106,3 @@
   background-color: #ddd;
 }
 
-.flag-area button {
-  border-bottom-right-radius: unset;
-  border-top-right-radius: unset;
-}

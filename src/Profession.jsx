@@ -62,6 +62,7 @@ class Profession extends Component {
     this.setState({
       value: newValue
     });
+    this.props.onChange(e);
   }
 
   renderSuggestion(suggestion) { 
@@ -88,12 +89,14 @@ class Profession extends Component {
     const inputProps = {
       placeholder: 'Дровосек',
       value,
+      name: this.props.name,
       onChange: this.onChange
     };
 
     return (
       <div>
         <Autosuggest
+          onSubmit={() => true}
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.refreshSuggestions}
           onSuggestionsClearRequested={this.clearSuggestions}
